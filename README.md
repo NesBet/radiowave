@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RadioWave
+
+A modern web app for streaming Kenyan radio stations live.
+
+Built with [Next.js](https://nextjs.org) (App Router), [Tailwind CSS](https://tailwindcss.com), [Framer Motion](https://www.framer.com/motion/), and [next-themes](https://github.com/pacocoursey/next-themes).
+
+## Features
+
+- Stream 5 Kenyan radio stations: NRG, Hot 96, Classic 105, Kiss 100, Homeboyz
+- Dark/light theme toggle
+- Animated UI with spring transitions and hover effects
+- Floating player bar with live status indicator
+- Responsive grid layout
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+cp .env.local.example .env.local
+# Edit .env.local with your stream URLs
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+```
 
-## Learn More
+## Stations
 
-To learn more about Next.js, take a look at the following resources:
+| Station     |
+| ----------- |
+| NRG Radio   |
+| Hot 96      |
+| Classic 105 |
+| Kiss 100    |
+| Homeboyz    |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Update stream URLs in `.env.local`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tech
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Next.js 16** — App Router, Turbopack
+- **Tailwind CSS v4** — utility-first styling, dark mode via class strategy
+- **Framer Motion** — spring animations, layout animations
+- **next-themes** — theme persistence, flash prevention
+- **Lucide React** — icons
