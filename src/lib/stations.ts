@@ -19,7 +19,7 @@ export const stations: Station[] = [
   {
     id: "hot96",
     name: "Hot 96",
-    tagline: "The Capital's Hot Spot",
+    tagline: "The Capital's Hotspot",
     url: process.env.NEXT_PUBLIC_HOT96_URL!,
     icon: "/icons/hot96.webp",
     color: "#ef4444",
@@ -43,7 +43,7 @@ export const stations: Station[] = [
   {
     id: "homeboyz",
     name: "Homeboyz Radio",
-    tagline: "The People's Station",
+    tagline: "The Youthful Vibes of Kenya",
     url: process.env.NEXT_PUBLIC_HOMEBOYZ_URL!,
     icon: "/icons/homeboyz.webp",
     color: "#8b5cf6",
