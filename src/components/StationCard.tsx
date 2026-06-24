@@ -31,12 +31,29 @@ function StationCard({
       whileHover={{ y: -6, scale: 1.02 }}
       className={`group relative overflow-hidden rounded-2xl border p-5 transition-colors duration-300 ${
         isActive
-          ? isPlaying
-            ? "animate-border-run bg-orange-50/60 dark:bg-orange-950/20"
-            : "border-orange-400 bg-orange-50/60 dark:border-orange-500 dark:bg-orange-950/20"
+          ? "border-orange-400 bg-orange-50/60 dark:border-orange-500 dark:bg-orange-950/20"
           : "border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900/60 hover:border-zinc-300 dark:hover:border-zinc-700"
       }`}
     >
+      {isActive && isPlaying && (
+        <div
+          className="pointer-events-none absolute inset-0 rounded-2xl animate-spin-smooth"
+          style={{
+            padding: "3px",
+            background:
+              "conic-gradient(transparent 0%, transparent 30%, #ea580c 50%, #fbbf24 65%, #ea580c 80%, transparent 100%)",
+            maskImage:
+              "linear-gradient(#000, #000), linear-gradient(#000, #000)",
+            maskClip: "content-box, border-box",
+            maskComposite: "exclude",
+            WebkitMaskImage:
+              "linear-gradient(#000, #000), linear-gradient(#000, #000)",
+            WebkitMaskClip: "content-box, border-box",
+            WebkitMaskComposite: "xor",
+          }}
+        />
+      )}
+
       <div className="flex items-center gap-4">
         <div className="relative shrink-0">
           <div

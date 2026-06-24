@@ -6,39 +6,12 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
-  --animate-border-run: border-run 1.5s linear infinite;
+  --animate-spin-smooth: spin-smooth 2s linear infinite;
 }
 
-@keyframes border-run {
-  0%, 21% {
-    border-top-color: #f97316;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-    border-left-color: transparent;
-  }
-  23%, 46% {
-    border-top-color: transparent;
-    border-right-color: #f97316;
-    border-bottom-color: transparent;
-    border-left-color: transparent;
-  }
-  48%, 71% {
-    border-top-color: transparent;
-    border-right-color: transparent;
-    border-bottom-color: #f97316;
-    border-left-color: transparent;
-  }
-  73%, 96% {
-    border-top-color: transparent;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-    border-left-color: #f97316;
-  }
-  100% {
-    border-top-color: #f97316;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-    border-left-color: transparent;
+@keyframes spin-smooth {
+  to {
+    transform: rotate(360deg);
   }
 }
 
