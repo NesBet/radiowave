@@ -18,9 +18,16 @@
   --foreground: #f4f4f5;
 }
 
-@keyframes progress {
-  0% { width: 0%; }
-  100% { width: 100%; }
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes border-spin {
+  to {
+    --angle: 360deg;
+  }
 }
 
 ::-webkit-scrollbar {

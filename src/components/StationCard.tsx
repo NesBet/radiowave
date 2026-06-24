@@ -29,12 +29,17 @@ function StationCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 100, damping: 15 }}
       whileHover={{ y: -6, scale: 1.02 }}
-      className={`group relative overflow-hidden rounded-2xl border p-5 transition-colors duration-300 ${
+      className="group relative overflow-hidden rounded-2xl"
+    >
+      {isActive && isPlaying && (
+        <div className="pointer-events-none absolute inset-0 rounded-2xl animate-border-spin bg-[conic-gradient(from_var(--angle),transparent_30%,theme(colors.orange.400)_50%,theme(colors.amber.300)_50%,transparent_70%)]" />
+      )}
+
+      <div className={`m-[2px] rounded-2xl border p-5 transition-colors duration-300 ${
         isActive
           ? "border-orange-400 bg-orange-50/60 dark:border-orange-500 dark:bg-orange-950/20"
           : "border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900/60 hover:border-zinc-300 dark:hover:border-zinc-700"
-      }`}
-    >
+      }`}>
       <div className="flex items-center gap-4">
         <div className="relative shrink-0">
           <div
@@ -89,16 +94,7 @@ function StationCard({
           )}
         </motion.button>
       </div>
-
-      {isActive && isPlaying && (
-        <motion.div
-          initial={{ width: "0%" }}
-          animate={{ width: "100%" }}
-          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="absolute bottom-0 left-0 h-0.5 bg-linear-to-r from-orange-400 to-amber-300"
-          style={{ animation: "progress 3s linear infinite" }}
-        />
-      )}
+      </div>
     </motion.div>
   )
 }
