@@ -6,14 +6,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
-  --animate-spin-smooth: spin-smooth 2s linear infinite;
-}
-
-@keyframes spin-smooth {
-  to {
-    transform: rotate(360deg);
-  }
-}
+};
 
 :root {
   --background: #fafafa;
