@@ -1,13 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Radio, SearchX } from "lucide-react";
 import Header from "@/components/Header";
 import StationCard from "@/components/StationCard";
 import PlayerBar from "@/components/PlayerBar";
+import SearchBar from "@/components/SearchBar";
 import { useRadio } from "@/hooks/useRadio";
-import { stations } from "@/lib/stations";
+import { useSearch } from "@/hooks/useSearch";
 
 export default function Home() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const { results, mode } = useSearch(searchQuery);
+
   const {
     currentStation,
     isPlaying,
@@ -28,7 +34,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mb-10 text-center"
+            className="mb-8 text-center"
           >
             <motion.h2
               initial={{ opacity: 0, scale: 0.9 }}
@@ -36,10 +42,7 @@ export default function Home() {
               transition={{ delay: 0.15, type: "spring", stiffness: 100 }}
               className="text-3xl font-bold tracking-tight text-orange-600 dark:text-white sm:text-4xl"
             >
-              Choose a Station{" "}
-              {/*<span className="bg-linear-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent">
-                Station
-              </span>*/}
+              Choose a Station
             </motion.h2>
             <motion.p
               initial={{ opacity: 0 }}
@@ -51,18 +54,58 @@ export default function Home() {
             </motion.p>
           </motion.div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {stations.map((station) => (
-              <StationCard
-                key={station.id}
-                station={station}
-                isActive={currentStation?.id === station.id}
-                isPlaying={isPlaying}
-                loadingStationId={loadingStationId}
-                onToggle={toggleStation}
-              />
-            ))}
-          </div>
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            resultCount={results.length}
+            mode={mode}
+          />
+
+          <AnimatePresence mode="wait">
+            {mode === "empty" ? (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="flex flex-col items-center justify-center py-20 text-center"
+              >
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 150, damping: 12 }}
+                  className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 dark:bg-zinc-800"
+                >
+                  <SearchX className="h-7 w-7 text-zinc-400" />
+                </motion.div>
+                <h3 className="text-lg font-semibold text-zinc-700 dark:text-zinc-300">
+                  No stations found
+                </h3>
+                <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                  Try a different search term
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="grid"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+              >
+                {results.map((station) => (
+                  <StationCard
+                    key={station.id}
+                    station={station}
+                    isActive={currentStation?.id === station.id}
+                    isPlaying={isPlaying}
+                    loadingStationId={loadingStationId}
+                    onToggle={toggleStation}
+                  />
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </main>
 

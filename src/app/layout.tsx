@@ -9,7 +9,7 @@ const geistSans = Geist({
 });
 
 const siteUrl = "https://radiowaveke.vercel.app";
-const siteName = "RadioWave";
+const siteName = "Radiowaveke";
 
 export const metadata: Metadata = {
   title: {
@@ -28,7 +28,12 @@ export const metadata: Metadata = {
     "Homeboyz Radio",
     "Capital FM",
     "radio online",
+    "Kenyan music",
     "Kenya music",
+    "Kenya music wave",
+    "RadioWave",
+    "RadioWave Kenya",
+    "RadioWave Vercel",
   ],
   authors: [{ name: siteName }],
   metadataBase: new URL(siteUrl),
