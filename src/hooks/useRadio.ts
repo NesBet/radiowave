@@ -8,17 +8,39 @@ export function useRadio() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [loadingStationId, setLoadingStationId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [volume, setVolume] = useState(0.75)
+  const [muted, setMuted] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
     audioRef.current = new Audio()
     audioRef.current.preload = "none"
+    audioRef.current.volume = volume
     return () => {
       if (audioRef.current) {
         audioRef.current.pause()
         audioRef.current.src = ""
       }
     }
+  }, [volume])
+
+  const handleVolumeChange = useCallback((value: number) => {
+    setVolume(value)
+    if (audioRef.current) {
+      audioRef.current.volume = value
+    }
+    if (value > 0 && muted) {
+      setMuted(false)
+      if (audioRef.current) audioRef.current.muted = false
+    }
+  }, [muted])
+
+  const toggleMuted = useCallback(() => {
+    setMuted((prev) => {
+      const next = !prev
+      if (audioRef.current) audioRef.current.muted = next
+      return next
+    })
   }, [])
 
   const play = useCallback((station: Station) => {
@@ -83,6 +105,10 @@ export function useRadio() {
     isLoading,
     loadingStationId,
     error,
+    volume,
+    muted,
+    handleVolumeChange,
+    toggleMuted,
     toggleStation,
     stop,
   }

@@ -20,6 +20,10 @@ export default function Home() {
     isLoading,
     loadingStationId,
     error,
+    volume,
+    muted,
+    handleVolumeChange,
+    toggleMuted,
     toggleStation,
     stop,
   } = useRadio();
@@ -114,6 +118,10 @@ export default function Home() {
         isPlaying={isPlaying}
         isLoading={isLoading}
         error={error}
+        volume={volume}
+        muted={muted}
+        onVolumeChange={handleVolumeChange}
+        onMuteToggle={toggleMuted}
         onStop={stop}
       />
     </div>
