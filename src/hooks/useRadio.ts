@@ -141,6 +141,7 @@ export function useRadio() {
   }, [])
 
   const stop = useCallback(() => {
+    loadedUrlRef.current = null
     if (audioRef.current) {
       audioRef.current.pause()
       audioRef.current.src = ""
