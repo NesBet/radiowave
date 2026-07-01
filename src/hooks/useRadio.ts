@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react"
 import type { Station } from "@/lib/stations"
+import { stations } from "@/lib/stations"
 
 export function useRadio() {
   const [currentStation, setCurrentStation] = useState<Station | null>(null)
@@ -11,16 +12,35 @@ export function useRadio() {
   const [volume, setVolume] = useState(0.75)
   const [muted, setMuted] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const restoredRef = useRef(false)
 
   useEffect(() => {
-    audioRef.current = new Audio()
-    audioRef.current.preload = "none"
-    audioRef.current.volume = volume
+    const audio = new Audio()
+    audio.preload = "none"
+    audio.volume = volume
+    audioRef.current = audio
+
+    const savedId = localStorage.getItem("radio-station-id")
+    if (savedId && !restoredRef.current) {
+      restoredRef.current = true
+      const savedStation = stations.find((s) => s.id === savedId)
+      if (savedStation) {
+        play(savedStation)
+      }
+    }
+
     return () => {
       if (audioRef.current) {
         audioRef.current.pause()
         audioRef.current.src = ""
       }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume
     }
   }, [volume])
 
@@ -62,6 +82,7 @@ export function useRadio() {
         setIsPlaying(true)
         setLoadingStationId(null)
         setCurrentStation(station)
+        localStorage.setItem("radio-station-id", station.id)
       }).catch(() => {
         setError("Failed to play. Please try again.")
         setLoadingStationId(null)
@@ -84,6 +105,7 @@ export function useRadio() {
     setCurrentStation(null)
     setLoadingStationId(null)
     setError(null)
+    localStorage.removeItem("radio-station-id")
   }, [])
 
   const toggleStation = useCallback(
