@@ -13,6 +13,7 @@ export function useRadio() {
   const [muted, setMuted] = useState(false)
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const restoredRef = useRef(false)
+  const loadedUrlRef = useRef<string | null>(null)
 
   useEffect(() => {
     const savedVolume = localStorage.getItem("radio-volume")
@@ -89,31 +90,50 @@ export function useRadio() {
 
   const play = useCallback((station: Station) => {
     if (!audioRef.current) return
+    const audio = audioRef.current
 
     setError(null)
     setLoadingStationId(station.id)
 
-    if (audioRef.current.src) {
-      audioRef.current.pause()
-      audioRef.current.src = ""
-    }
-
-    audioRef.current.src = station.url
-    audioRef.current.load()
-
-    audioRef.current.oncanplay = () => {
-      audioRef.current?.play().then(() => {
+    if (loadedUrlRef.current === station.url) {
+      audio.play().then(() => {
         setIsPlaying(true)
         setLoadingStationId(null)
         setCurrentStation(station)
         localStorage.setItem("radio-station-id", station.id)
       }).catch(() => {
-        setError("Failed to play. Please try again.")
         setLoadingStationId(null)
+      })
+      return
+    }
+
+    if (audio.src) {
+      audio.pause()
+      audio.src = ""
+    }
+
+    loadedUrlRef.current = station.url
+    audio.src = station.url
+    audio.load()
+
+    audio.oncanplay = () => {
+      audio.play().then(() => {
+        setIsPlaying(true)
+        setLoadingStationId(null)
+        setCurrentStation(station)
+        localStorage.setItem("radio-station-id", station.id)
+      }).catch((err) => {
+        setLoadingStationId(null)
+        setCurrentStation(station)
+        if (err?.name === "NotAllowedError") {
+          localStorage.setItem("radio-station-id", station.id)
+        } else {
+          setError("Failed to play. Please try again.")
+        }
       })
     }
 
-    audioRef.current.onerror = () => {
+    audio.onerror = () => {
       setError("Connection error. The station may be offline.")
       setLoadingStationId(null)
       setIsPlaying(false)
