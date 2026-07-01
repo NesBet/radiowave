@@ -23,16 +23,18 @@ export function useRadio() {
     if (savedMuted !== null) {
       setMuted(savedMuted === "true")
     }
+    restoredRef.current = true
   }, [])
 
   useEffect(() => {
     const audio = new Audio()
     audio.preload = "none"
+    audio.volume = volume
+    audio.muted = muted
     audioRef.current = audio
 
     const savedId = localStorage.getItem("radio-station-id")
-    if (savedId && !restoredRef.current) {
-      restoredRef.current = true
+    if (savedId) {
       const savedStation = stations.find((s) => s.id === savedId)
       if (savedStation) {
         play(savedStation)
@@ -52,14 +54,18 @@ export function useRadio() {
     if (audioRef.current) {
       audioRef.current.volume = volume
     }
-    localStorage.setItem("radio-volume", String(volume))
+    if (restoredRef.current) {
+      localStorage.setItem("radio-volume", String(volume))
+    }
   }, [volume])
 
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.muted = muted
     }
-    localStorage.setItem("radio-muted", String(muted))
+    if (restoredRef.current) {
+      localStorage.setItem("radio-muted", String(muted))
+    }
   }, [muted])
 
   const handleVolumeChange = useCallback((value: number) => {

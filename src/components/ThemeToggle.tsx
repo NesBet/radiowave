@@ -10,7 +10,11 @@ export default function ThemeToggle() {
   return (
     <motion.button
       whileTap={{ scale: 0.85 }}
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      onClick={() => {
+        const next = theme === "dark" ? "light" : "dark"
+        setTheme(next)
+        try { localStorage.setItem("theme", next) } catch {}
+      }}
       className="relative flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 dark:bg-zinc-800 transition-colors"
       aria-label="Toggle theme"
       suppressHydrationWarning
